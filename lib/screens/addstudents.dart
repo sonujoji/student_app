@@ -24,8 +24,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
   final _mobilenumberController = TextEditingController();
 
-  // final _parentNameController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
   File? _selectedImage;
@@ -79,7 +77,10 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                               width: 140,
                             ),
                           )
-                        : const Icon(Icons.add_a_photo)),
+                        : const Icon(
+                            Icons.add_a_photo,
+                            size: 30,
+                          )),
               ),
             ),
             Padding(
@@ -90,9 +91,10 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   children: [
                     const SizedBox(height: 10),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _nameController,
                       inputFormatters: [
-                        FilteringTextInputFormatter.singleLineFormatter
+                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                       ],
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -108,6 +110,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _ageController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -127,6 +130,10 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                      ],
                       controller: _placeController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -142,6 +149,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       maxLength: 10,
                       controller: _mobilenumberController,
                       keyboardType: TextInputType.phone,
