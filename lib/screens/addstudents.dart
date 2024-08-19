@@ -36,7 +36,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
 
   @override
   void initState() {
-    showData();
+    // showData();
     super.initState();
   }
 
@@ -60,7 +60,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
             Center(
               child: CircleAvatar(
                 radius: 60,
-                // backgroundColor: Colors.blue,
                 child: GestureDetector(
                     onTap: () async {
                       File? pickedImage = await _pickImageFromGallery();
@@ -173,9 +172,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
-                        // print('checking');
                         if (_formKey.currentState!.validate()) {
-                          // print('form validation is correct');
                           onAddStudentButtonClicked(context);
                         }
                       },
@@ -207,21 +204,18 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
   }
 
   void onAddStudentButtonClicked(BuildContext context) async {
-    // print('button clicked');
     if (_formKey.currentState!.validate()) {
       if (_selectedImage == null) {
-        setState(() {
-          _selectedImage = null;
-        });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.red,
             content: Text(
               'Image not selected',
               style: TextStyle(color: Colors.white),
             ),
           ),
         );
+        return;
       }
 
       final student = StudentModel(
@@ -230,11 +224,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         place: _placeController.text,
         mobile: _mobilenumberController.text,
         imageurl: _selectedImage != null ? _selectedImage!.path : null,
-
-        // parent: '',
       );
 
-      // print(_nameController);
       if (widget.model == null) {
         await addStudent(student);
       } else {
@@ -244,14 +235,13 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       if (context.mounted) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => const HomeScreen(),
             ),
             (Route<dynamic> route) => false);
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.lightGreen,
-            // behavior: SnackBarBehavior.floating,
             content: Text(
               'Student details added succesfully',
               style: TextStyle(color: Colors.white),
@@ -262,18 +252,18 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
     }
   }
 
-  void showData() {
-    if (widget.model != null) {
-      _nameController.text = widget.model!.name!;
-      _ageController.text = widget.model!.age!;
-      _placeController.text = widget.model!.age!;
-      _mobilenumberController.text = widget.model!.mobile!;
+  // void showData() {
+  //   if (widget.model != null) {
+  //     _nameController.text = widget.model!.name!;
+  //     _ageController.text = widget.model!.age!;
+  //     _placeController.text = widget.model!.age!;
+  //     _mobilenumberController.text = widget.model!.mobile!;
 
-      if (widget.model!.imageurl != null) {
-        _selectedImage = File(
-          widget.model!.imageurl!,
-        );
-      }
-    }
-  }
+  //     if (widget.model!.imageurl != null) {
+  //       _selectedImage = File(
+  //         widget.model!.imageurl!,
+  //       );
+  //     }
+  //   }
+  // }
 }

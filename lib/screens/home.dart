@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:student_app/model/student_model.dart';
 import 'package:student_app/screens/addstudents.dart';
@@ -50,15 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void filterStudents(String value) {
-    if (_filteredStudents.isEmpty) {
-      _filteredStudents = _studentData;
-    } else {
-      _filteredStudents = _studentData
-          .where((student) =>
-              student['name'].toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    }
-    setState(() {});
+    setState(() {
+      if (value.isEmpty) {
+        _filteredStudents = _studentData;
+      } else {
+        _filteredStudents = _studentData
+            .where((student) =>
+                student['name'].toLowerCase().contains(value.toLowerCase()))
+            .toList();
+      }
+      if (_filteredStudents.isEmpty) {
+        _filteredStudents = [];
+      }
+    });
   }
 
   @override
@@ -86,9 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: 70,
-                // color: Colors.grey[200],
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: TextField(
@@ -124,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     subtitle: Text(student['place']),
                                     leading: GestureDetector(
                                       onTap: () {
-                                        FocusScope.of(context).unfocus;
                                         showDialog(
                                             context: context,
                                             builder: (context) => AlertDialog(
@@ -144,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             ? Icon(Icons.person)
                                                             : null,
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 20,
                                                       ),
                                                       Text(
@@ -167,9 +168,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             onPressed: () {
                                                               Navigator.pop(
                                                                   context);
+                                                              FocusScope.of(
+                                                                      context)
+                                                                  .unfocus();
                                                             },
                                                             child:
-                                                                Text('Close')))
+                                                                const Text('Close')))
                                                   ],
                                                 ));
                                       },
@@ -178,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ? FileImage(File(studentImg))
                                             : null,
                                         child: studentImg == null
-                                            ? Icon(Icons.person)
+                                            ? const Icon(Icons.person)
                                             : null,
                                       ),
                                     ),
@@ -196,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 builder: (BuildContext
                                                         context) =>
                                                     AlertDialog(
-                                                        content: Text(
+                                                        content: const Text(
                                                             'Do you want to delete'),
                                                         actions: [
                                                           TextButton(
@@ -213,29 +217,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(
-                                                                  SnackBar(
+                                                                  const SnackBar(
                                                                     backgroundColor:
                                                                         Colors
                                                                             .red,
                                                                     content: Text(
                                                                         'Student details deleted'),
-                                                                    // behavior:
-                                                                    //     SnackBarBehavior
-                                                                    //         .floating,
+                                                                    
                                                                   ),
                                                                 );
                                                               },
                                                               child:
-                                                                  Text('yes')),
+                                                                  const Text('yes')),
                                                           TextButton(
                                                               onPressed: () {
                                                                 Navigator.pop(
                                                                     context);
+                                                                FocusScope.of(
+                                                                        context)
+                                                                    .unfocus();
                                                               },
-                                                              child: Text('no'))
+                                                              child: const Text('no'))
                                                         ]));
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.delete,
                                           ))
                                     ])),
@@ -248,24 +253,24 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         onPressed: () {
           FocusScope.of(context).unfocus();
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => AddStudentScreen(),
+              builder: (context) => const AddStudentScreen(),
             ),
           );
         },
-        child: Icon(Icons.add),
         backgroundColor: Colors.blueGrey[100],
+        child: const Icon(Icons.add),
       ),
     );
   }
 
   Future<void> showEditDialogue(
       BuildContext context, Map<String, dynamic> student) async {
-    FocusScope.of(context).unfocus();
+    // FocusScope.of(context).unfocus();
     final TextEditingController nameController =
         TextEditingController(text: student['name'].toString());
     final TextEditingController ageController =
@@ -293,17 +298,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectedImage = XFile(pickedImage.path);
               });
             }
+            // ignore: avoid_returning_null_for_void
             return null;
           }
 
           return AlertDialog(
-            title: Text('Edit Student Details'),
+            title: const Text('Edit Student Details'),
             content: SingleChildScrollView(
               child: Form(
                 key: formKey,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     GestureDetector(
@@ -316,11 +322,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? FileImage(File(_selectedImage!.path))
                             : null,
                         child: _selectedImage == null
-                            ? Icon(Icons.add_a_photo)
+                            ? const Icon(Icons.add_a_photo)
                             : null,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
@@ -331,12 +337,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               RegExp(r'[a-zA-Z]')),
                         ],
                         controller: nameController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(), label: Text('Name')),
-                        validator: (value) => value!.isEmpty || value == null
+                        validator: (value) => value!.isEmpty
                             ? 'Name is empty'
                             : null),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
@@ -353,10 +359,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       },
                       controller: ageController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(), label: Text('Age')),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
@@ -373,10 +379,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       },
                       controller: placeController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(), label: Text('Place')),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
@@ -394,11 +400,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       },
                       controller: mobileController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           label: Text('Mobile Number')),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                   ],
@@ -409,8 +415,9 @@ class _HomeScreenState extends State<HomeScreen> {
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
+                    FocusScope.of(context).unfocus();
                   },
-                  child: Text('Cancel')),
+                  child: const Text('Cancel')),
               TextButton(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
@@ -427,14 +434,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                       await _fetchStudentsData();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Student details edited succesfully'),
                         backgroundColor: Colors.lightGreen,
                       ));
                       Navigator.pop(context);
+                      FocusScope.of(context).unfocus();
                     }
                   },
-                  child: Text('Save'))
+                  child: const Text('Save'))
             ],
           );
         });
