@@ -172,8 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       context)
                                                                   .unfocus();
                                                             },
-                                                            child:
-                                                                const Text('Close')))
+                                                            child: const Text(
+                                                                'Close')))
                                                   ],
                                                 ));
                                       },
@@ -223,12 +223,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             .red,
                                                                     content: Text(
                                                                         'Student details deleted'),
-                                                                    
                                                                   ),
                                                                 );
                                                               },
-                                                              child:
-                                                                  const Text('yes')),
+                                                              child: const Text(
+                                                                  'yes')),
                                                           TextButton(
                                                               onPressed: () {
                                                                 Navigator.pop(
@@ -237,7 +236,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         context)
                                                                     .unfocus();
                                                               },
-                                                              child: const Text('no'))
+                                                              child: const Text(
+                                                                  'no'))
                                                         ]));
                                           },
                                           icon: const Icon(
@@ -298,8 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectedImage = XFile(pickedImage.path);
               });
             }
-            // ignore: avoid_returning_null_for_void
-            return null;
+            return;
           }
 
           return AlertDialog(
@@ -339,9 +338,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         controller: nameController,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(), label: Text('Name')),
-                        validator: (value) => value!.isEmpty
-                            ? 'Name is empty'
-                            : null),
+                        validator: (value) =>
+                            value!.isEmpty ? 'Name is empty' : null),
                     const SizedBox(
                       height: 10,
                     ),

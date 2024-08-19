@@ -49,6 +49,15 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
           'Add Student',
           style: TextStyle(color: Colors.white, fontFamily: 'PlaywriteHR'),
         ),
+        // leading: IconButton(
+        //     onPressed: () {
+        //       Navigator.of(context).pop();
+        //       FocusScope.of(context).unfocus();
+        //     },
+        //     icon: Icon(
+        //       Icons.arrow_back,
+        //       color: Colors.white,
+        //     )),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -61,25 +70,26 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
               child: CircleAvatar(
                 radius: 60,
                 child: GestureDetector(
-                    onTap: () async {
-                      File? pickedImage = await _pickImageFromGallery();
-                      if (pickedImage != null) {
-                        setImage(pickedImage);
-                      }
-                    },
-                    child: _selectedImage != null
-                        ? ClipOval(
-                            child: Image.file(
-                              _selectedImage!,
-                              fit: BoxFit.cover,
-                              height: 140,
-                              width: 140,
-                            ),
-                          )
-                        : const Icon(
-                            Icons.add_a_photo,
-                            size: 30,
-                          )),
+                  onTap: () async {
+                    File? pickedImage = await _pickImageFromGallery();
+                    if (pickedImage != null) {
+                      setImage(pickedImage);
+                    }
+                  },
+                  child: _selectedImage != null
+                      ? ClipOval(
+                          child: Image.file(
+                            _selectedImage!,
+                            fit: BoxFit.cover,
+                            height: 140,
+                            width: 140,
+                          ),
+                        )
+                      : const Icon(
+                          Icons.add_a_photo,
+                          size: 30,
+                        ),
+                ),
               ),
             ),
             Padding(
